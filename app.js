@@ -3,10 +3,12 @@ const path = require("path")
 
 // import third party modules
 const express = require("express")
+const csurf = require("csurf")
 
 // import database object
 const db = require("./data/database")
 // import code outsourced files
+const addCsrfTokenMiddleware = require("./middleware/csrf-token")
 const authRoutes = require("./routes/auth.routes")
 
 // setup app object by calling express function
@@ -22,6 +24,11 @@ app.set("views", path.join(__dirname, "views"))
 app.use(express.static("public"))
 //=== SETUP MIDDLEWARE TO RECEIVE DATA ATTACHED WITH INCOMING REQUESTS ===|
 app.use(express.urlencoded({ extended: false }))
+
+//=== SETUP CSRF MIDDLEWARE
+app.use(csurf())
+
+app.use(addCsrfTokenMiddleware)
 
 app.use(authRoutes)
 

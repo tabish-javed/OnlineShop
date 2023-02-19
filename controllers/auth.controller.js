@@ -1,5 +1,4 @@
 const User = require("../models/user.model")
-// const { randomBytes } = require("crypto")
 
 function getSignUp(req, res) {
     res.render("customer/auth/signup")
