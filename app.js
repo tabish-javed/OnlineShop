@@ -4,6 +4,8 @@ const path = require("path")
 // import third party modules
 const express = require("express")
 
+// import database object
+const db = require("./data/database")
 // import code outsourced files
 const authRoutes = require("./routes/auth.routes")
 
@@ -21,4 +23,10 @@ app.use(express.static("public"))
 
 app.use(authRoutes)
 
-app.listen(3000)
+db.connectToDatabase()
+    .then(function () {
+        app.listen(3000)
+    }).catch(function (error) {
+        console.log("Failed to connect to the database!")
+        console.log(error)
+    })
