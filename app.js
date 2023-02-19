@@ -20,6 +20,8 @@ app.set("views", path.join(__dirname, "views"))
 
 //=== SETUP MIDDLEWARE FOR STATIC CONTENT ===|
 app.use(express.static("public"))
+//=== SETUP MIDDLEWARE TO RECEIVE DATA ATTACHED WITH INCOMING REQUESTS ===|
+app.use(express.urlencoded({ extended: false }))
 
 app.use(authRoutes)
 
