@@ -10,8 +10,12 @@ const expressSession = require("express-session")
 const db = require("./data/database")
 const addCsrfTokenMiddleware = require("./middleware/csrf-token")
 const errorHandlerMiddleware = require("./middleware/error-handler")
+const checkAuthStatusMiddleware = require("./middleware/check-auth")
+
 const createSessionConfig = require("./config/session")
 const authRoutes = require("./routes/auth.routes")
+const productsRoutes = require("./routes/products.routes")
+const baseRoutes = require("./routes/base.routes")
 
 // setup app object by calling express function
 const app = express()
@@ -34,8 +38,11 @@ app.use(expressSession(sessionConfig))
 //=== SETUP CSRF MIDDLEWARE ===|
 app.use(csurf())
 app.use(addCsrfTokenMiddleware)
+app.use(checkAuthStatusMiddleware)
 
+app.use(baseRoutes)
 app.use(authRoutes)
+app.use(productsRoutes)
 
 app.use(errorHandlerMiddleware)
 
