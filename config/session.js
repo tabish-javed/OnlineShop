@@ -16,7 +16,6 @@ function createSessionStore() {
         uri: uriMongoDB,
         databaseName: "online-shop",
         collection: "sessions",
-        expiresAfterSeconds: 5 * 60,
     })
     return store
 }
