@@ -4,11 +4,13 @@ const path = require("path")
 // import third party modules
 const express = require("express")
 const csurf = require("csurf")
+const expressSession = require("express-session")
 
-// import database object
-const db = require("./data/database")
 // import code outsourced files
+const db = require("./data/database")
 const addCsrfTokenMiddleware = require("./middleware/csrf-token")
+const errorHandlerMiddleware = require("./middleware/error-handler")
+const createSessionConfig = require("./config/session")
 const authRoutes = require("./routes/auth.routes")
 
 // setup app object by calling express function
@@ -25,12 +27,17 @@ app.use(express.static("public"))
 //=== SETUP MIDDLEWARE TO RECEIVE DATA ATTACHED WITH INCOMING REQUESTS ===|
 app.use(express.urlencoded({ extended: false }))
 
-//=== SETUP CSRF MIDDLEWARE
-app.use(csurf())
+//=== SETUP SESSION CONFIGURATION ===|
+const sessionConfig = createSessionConfig()
+app.use(expressSession(sessionConfig))
 
+//=== SETUP CSRF MIDDLEWARE ===|
+app.use(csurf())
 app.use(addCsrfTokenMiddleware)
 
 app.use(authRoutes)
+
+app.use(errorHandlerMiddleware)
 
 db.connectToDatabase()
     .then(function () {
