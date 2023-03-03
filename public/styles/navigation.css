@@ -73,9 +73,22 @@ main {
     height: calc(100vh - 5rem);
     width: 100%;
     background-color: var(--color-gray-700);
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+}
+
+/*
+Down below both ID and Class are separated with just "." without any space
+This means that we want to select the element which has ID; #mobile-menu <AND> .open Class.
+    - not all the child elements having .open class.
+
+Unlike other with space between which means; Select all elements having .open class which
+are dependent of #mobile-menu ID
+*/
+
+#mobile-menu.open {
+    display: flex;
 }
 
 #mobile-menu nav {
