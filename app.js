@@ -29,6 +29,7 @@ app.set("views", path.join(__dirname, "views"))
 
 //=== SETUP MIDDLEWARE FOR STATIC CONTENT ===|
 app.use(express.static("public"))
+app.use("/products/assets", express.static("product-data"))
 //=== SETUP MIDDLEWARE TO RECEIVE DATA ATTACHED WITH INCOMING REQUESTS ===|
 app.use(express.urlencoded({ extended: false }))
 
