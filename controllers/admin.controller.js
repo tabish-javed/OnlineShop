@@ -62,10 +62,23 @@ async function updateProduct(req, res, next) {
 
 }
 
+async function deleteProduct(req, res, next) {
+    let product
+    try {
+        product = await Product.findById(req.params.id)
+        await product.remove()
+    } catch (error) {
+        return next(error)
+    }
+
+    res.redirect("/admin/products")
+}
+
 module.exports = {
     getProducts: getProducts,
     getNewProduct: getNewProduct,
     createNewProduct: createNewProduct,
     getUpdateProduct: getUpdateProduct,
-    updateProduct: updateProduct
+    updateProduct: updateProduct,
+    deleteProduct: deleteProduct
 }
