@@ -1,0 +1,35 @@
+class Cart {
+
+    constructor(items = [], totalQuantity = 0, totalPrice = 0) {
+        this.items = items
+        this.totalQuantity = totalQuantity
+        this.totalPrice = totalPrice
+    }
+
+    addItem(product) {
+        const cartItem = {
+            product: product,
+            quantity: 1,
+            totalPrice: product.price
+        }
+
+        for (let index = 0; index < this.items.length; index++) {
+            const item = this.item[index]
+            if (item.product.id === product.id) {
+                cartItem.quantity = cartItem.quantity + 1
+                cartItem.totalPrice = cartItem.totalPrice + product.price
+                this.items[index] = cartItem
+
+                this.totalQuantity++
+                this.totalPrice += product.price
+                return
+            }
+        }
+
+        this.items.push(cartItem)
+        this.totalQuantity++
+        this.totalPrice += product.price
+    }
+}
+
+module.exports = Cart
