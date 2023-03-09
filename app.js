@@ -19,6 +19,7 @@ const authRoutes = require("./routes/auth.routes")
 const productsRoutes = require("./routes/products.routes")
 const baseRoutes = require("./routes/base.routes")
 const adminRoutes = require("./routes/admin.routes")
+const cartRoutes = require("./routes/cart.route")
 
 // setup app object by calling express function
 const app = express()
@@ -34,6 +35,7 @@ app.use(express.static("public"))
 app.use("/products/assets", express.static("product-data"))
 //=== SETUP MIDDLEWARE TO RECEIVE DATA ATTACHED WITH INCOMING REQUESTS ===|
 app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
 //=== SETUP SESSION CONFIGURATION ===|
 const sessionConfig = createSessionConfig()
@@ -50,6 +52,7 @@ app.use(checkAuthStatusMiddleware)
 app.use(baseRoutes)
 app.use(authRoutes)
 app.use(productsRoutes)
+app.use("/cart", cartRoutes)
 app.use(protectRoutesMiddleware)
 app.use("/admin", adminRoutes)
 
