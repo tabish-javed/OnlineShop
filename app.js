@@ -7,14 +7,16 @@ const csurf = require("csurf")
 const expressSession = require("express-session")
 
 // import code outsourced files
+const createSessionConfig = require("./config/session")
 const db = require("./data/database")
 const addCsrfTokenMiddleware = require("./middleware/csrf-token")
 const errorHandlerMiddleware = require("./middleware/error-handler")
 const checkAuthStatusMiddleware = require("./middleware/check-auth")
 const protectRoutesMiddleware = require("./middleware/protect-routes")
 const cartMiddleware = require("./middleware/cart")
+const updateCartPricesMiddleware = require("./middleware/update-cart-prices")
+const notFoundMiddleware = require("./middleware/not-found")
 
-const createSessionConfig = require("./config/session")
 const authRoutes = require("./routes/auth.routes")
 const productsRoutes = require("./routes/products.routes")
 const baseRoutes = require("./routes/base.routes")
@@ -46,6 +48,7 @@ app.use(expressSession(sessionConfig))
 app.use(csurf())
 
 app.use(cartMiddleware)
+app.use(updateCartPricesMiddleware)
 
 app.use(addCsrfTokenMiddleware)
 app.use(checkAuthStatusMiddleware)
@@ -54,9 +57,11 @@ app.use(baseRoutes)
 app.use(authRoutes)
 app.use(productsRoutes)
 app.use("/cart", cartRoutes)
-app.use(protectRoutesMiddleware)
-app.use("/orders", ordersRoutes)
-app.use("/admin", adminRoutes)
+
+app.use("/orders", protectRoutesMiddleware, ordersRoutes)
+app.use("/admin", protectRoutesMiddleware, adminRoutes)
+
+app.use(notFoundMiddleware)
 
 app.use(errorHandlerMiddleware)
 

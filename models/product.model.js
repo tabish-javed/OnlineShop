@@ -42,10 +42,29 @@ class Product {
         })
     }
 
+
+    static async findMultiple(ids) {
+        const productIds = ids.map(function (id) {
+            return new mongodb.ObjectId(id)
+        })
+
+        const products = await db
+            .getDb()
+            .collection('products')
+            .find({ _id: { $in: productIds } })
+            .toArray()
+
+        return products.map(function (productDocument) {
+            return new Product(productDocument)
+        })
+    }
+
+
     updateImageData() {
         this.imagePath = `product-data/images/${this.image}`
         this.imageUrl = `/products/assets/images/${this.image}`
     }
+
 
     async save() {
         const productData = {
@@ -63,7 +82,7 @@ class Product {
                 delete productData.image
             }
 
-            await db.getDb().collection("products").updateOne({_id: productId}, {
+            await db.getDb().collection("products").updateOne({ _id: productId }, {
                 $set: productData
             })
         } else {
@@ -71,14 +90,16 @@ class Product {
         }
     }
 
+
     async replaceImage(newImage) {
         this.image = newImage
         this.updateImageData()
     }
 
+
     remove() {
         const productId = new mongodb.ObjectId(this.id)
-        return db.getDb().collection("products").deleteOne({_id: productId})
+        return db.getDb().collection("products").deleteOne({ _id: productId })
     }
 }
 
