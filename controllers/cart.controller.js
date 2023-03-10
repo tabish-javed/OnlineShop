@@ -24,7 +24,7 @@ async function addCartItem(req, res) {
 }
 
 function updateCartItem(req, res) {
-    const cart = re.locals.cart
+    const cart = res.locals.cart
     const updatedItemData = cart.updateItem(req.body.productId, req.body.quantity)
 
     req.session.cart = cart
