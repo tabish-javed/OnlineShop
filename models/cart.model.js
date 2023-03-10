@@ -16,7 +16,7 @@ class Cart {
         for (let index = 0; index < this.items.length; index++) {
             const item = this.items[index]
             if (item.product.id === product.id) {
-                cartItem.quantity = item.quantity + 1
+                cartItem.quantity = +item.quantity + 1
                 cartItem.totalPrice = item.totalPrice + product.price
                 this.items[index] = cartItem
 
