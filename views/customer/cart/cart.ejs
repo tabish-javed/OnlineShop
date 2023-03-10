@@ -16,7 +16,8 @@
         <div id="cart-total">
             <p>Total: <span id="cart-total-price"><%=locals.cart.totalPrice.toFixed(2)%></span></p>
             <% if (locals.isAuth) { %>
-                <form action="/orders" method="pos">
+                <form action="/orders" method="post">
+                    <input type="hidden" name="_csrf" value="<%=locals.csrfToken%>">
                     <button class="btn">Buy Products</button>
                 </form>
             <% } else { %>
